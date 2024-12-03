@@ -134,64 +134,69 @@ export default function CampaignPage() {
         <p className="text-lg font-semibold">Description: {description}</p>
       </div>
       <div className="my-4">
-        <p className="text-lg font-semibold">
-          Owner: {owner}
-          {owner === account?.address && hasDeadlinePassed && status === 1 && (
-            <>
-              <TransactionButton
-                transaction={() =>
-                  prepareContractCall({
-                    contract: contract,
-                    method: "function withdraw()",
-                    params: [],
-                  })
-                }
-                onError={(error) => alert(`Error: ${error.message}`)}
-                onTransactionConfirmed={async () =>
-                  alert("Withdrawn successfully!")
-                }
-                style={{
-                  backgroundColor: "#2563EB",
-                  color: "white",
-                  marginLeft: "1rem",
-                  padding: "0.5rem 1rem",
-                  borderRadius: "0.375rem",
-                  cursor: "pointer",
-                }}
-              >
-                Withdraw ${balance?.toString()}
-              </TransactionButton>
-            </>
-          )}
-          {owner !== account?.address && hasDeadlinePassed && status === 2 && (
-            <>
-              <TransactionButton
-                transaction={() =>
-                  prepareContractCall({
-                    contract: contract,
-                    method: "function refund()",
-                    params: [],
-                  })
-                }
-                onError={(error) => alert(`Error: ${error.message}`)}
-                onTransactionConfirmed={async () =>
-                  alert("Refunded successfully!")
-                }
-                style={{
-                  backgroundColor: "#2563EB",
-                  color: "white",
-                  marginLeft: "1rem",
-                  padding: "0.5rem 1rem",
-                  borderRadius: "0.375rem",
-                  cursor: "pointer",
-                }}
-              >
-                Refund
-              </TransactionButton>
-            </>
-          )}
-        </p>
+        <p className="text-lg font-semibold">Owner: {owner}</p>
       </div>
+
+      {
+        // 펀딩 성공시 모집자 출금
+        owner === account?.address && hasDeadlinePassed && status === 1 && (
+          <>
+            <TransactionButton
+              transaction={() =>
+                prepareContractCall({
+                  contract: contract,
+                  method: "function withdraw()",
+                  params: [],
+                })
+              }
+              onError={(error) => alert(`Error: ${error.message}`)}
+              onTransactionConfirmed={async () =>
+                alert("Withdrawn successfully!")
+              }
+              style={{
+                backgroundColor: "#2563EB",
+                color: "white",
+                marginLeft: "1rem",
+                padding: "0.5rem 1rem",
+                borderRadius: "0.375rem",
+                cursor: "pointer",
+              }}
+            >
+              Withdraw ${balance?.toString()}
+            </TransactionButton>
+          </>
+        )
+      }
+      {
+        // 펀딩 실패시 참여금액 반환
+        owner !== account?.address && hasDeadlinePassed && status === 2 && (
+          <>
+            <TransactionButton
+              transaction={() =>
+                prepareContractCall({
+                  contract: contract,
+                  method: "function refund()",
+                  params: [],
+                })
+              }
+              onError={(error) => alert(`Error: ${error.message}`)}
+              onTransactionConfirmed={async () =>
+                alert("Refunded successfully!")
+              }
+              style={{
+                backgroundColor: "#2563EB",
+                color: "white",
+                marginLeft: "1rem",
+                padding: "0.5rem 1rem",
+                borderRadius: "0.375rem",
+                cursor: "pointer",
+              }}
+            >
+              Refund
+            </TransactionButton>
+          </>
+        )
+      }
       <div className="mb-4">
         <p className="text-lg font-semibold">
           Deadline:
