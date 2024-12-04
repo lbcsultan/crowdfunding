@@ -139,8 +139,8 @@ export default function CampaignPage() {
 
       {
         // 펀딩 성공시 모집자 출금
-        owner === account?.address && hasDeadlinePassed && status === 1 && (
-          <>
+        owner === account?.address && status === 1 && (
+          <div className="my-4">
             <TransactionButton
               transaction={() =>
                 prepareContractCall({
@@ -164,13 +164,13 @@ export default function CampaignPage() {
             >
               Withdraw ${balance?.toString()}
             </TransactionButton>
-          </>
+          </div>
         )
       }
       {
         // 펀딩 실패시 참여금액 반환
-        owner !== account?.address && hasDeadlinePassed && status === 2 && (
-          <>
+        hasDeadlinePassed && status === 2 && (
+          <div className="my-4">
             <TransactionButton
               transaction={() =>
                 prepareContractCall({
@@ -194,7 +194,7 @@ export default function CampaignPage() {
             >
               Refund
             </TransactionButton>
-          </>
+          </div>
         )
       }
       <div className="mb-4">
