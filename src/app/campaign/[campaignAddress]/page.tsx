@@ -169,7 +169,7 @@ export default function CampaignPage() {
       }
       {
         // 펀딩 실패시 참여금액 반환
-        hasDeadlinePassed && status === 2 && (
+        status === 2 && (
           <div className="my-4">
             <TransactionButton
               transaction={() =>
